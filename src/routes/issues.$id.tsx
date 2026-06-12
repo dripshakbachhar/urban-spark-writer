@@ -32,16 +32,19 @@ export const Route = createFileRoute("/issues/$id")({
       <SiteFooter />
     </div>
   ),
-  errorComponent: ({ error }) => (
-    <div className="min-h-screen bg-background">
-      <SiteNav />
-      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
-        <h1 className="font-display text-3xl font-semibold">Something went wrong</h1>
-        <p className="mt-2 text-muted-foreground">{error.message}</p>
+  errorComponent: ({ error }) => {
+    if (typeof console !== "undefined") console.error(error);
+    return (
+      <div className="min-h-screen bg-background">
+        <SiteNav />
+        <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+          <h1 className="font-display text-3xl font-semibold">Something went wrong</h1>
+          <p className="mt-2 text-muted-foreground">An unexpected error occurred. Please try again later.</p>
+        </div>
+        <SiteFooter />
       </div>
-      <SiteFooter />
-    </div>
-  ),
+    );
+  },
 });
 
 function IssueDetail() {
