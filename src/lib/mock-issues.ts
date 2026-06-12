@@ -177,7 +177,7 @@ export const ISSUES: Issue[] = [
     photo: "🧱",
     timeline: [
       { status: "reported", at: days(20) },
-      { status: "acknowledged", at: days: 19 } as never,
+      { status: "acknowledged", at: days(19) },
       { status: "in_progress", at: days(15) },
       { status: "resolved", at: days(11) },
     ],
