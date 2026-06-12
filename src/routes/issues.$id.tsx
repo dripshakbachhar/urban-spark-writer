@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, MapPin, ThumbsUp, Calendar, User as UserIcon } from "lucide-react";
 import { SiteNav, SiteFooter } from "@/components/site-chrome";
 import { SeverityPill, StatusChip, StatusTimeline } from "@/components/severity";
-import { ISSUES, STATUS_LABEL, CATEGORY_LABEL } from "@/lib/mock-issues";
+import { ISSUES, STATUS_LABEL, CATEGORY_LABEL, type Issue } from "@/lib/mock-issues";
 
 export const Route = createFileRoute("/issues/$id")({
   loader: ({ params }) => {
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/issues/$id")({
 });
 
 function IssueDetail() {
-  const { issue } = Route.useLoaderData();
+  const { issue } = Route.useLoaderData() as { issue: Issue };
   const fmt = (iso: string) => new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 
   return (
