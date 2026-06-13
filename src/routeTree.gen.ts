@@ -10,14 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as MapRouteImport } from './routes/map'
 import { Route as IssuesRouteImport } from './routes/issues'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CitiesRouteImport } from './routes/cities'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CitiesIndexRouteImport } from './routes/cities.index'
 import { Route as IssuesIdRouteImport } from './routes/issues.$id'
+import { Route as CitiesSlugRouteImport } from './routes/cities.$slug'
+import { Route as CitiesSlugIndexRouteImport } from './routes/cities.$slug.index'
+import { Route as CitiesSlugCategoryRouteImport } from './routes/cities.$slug.$category'
 
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IssuesRoute = IssuesRouteImport.update({
@@ -30,51 +41,126 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CitiesRoute = CitiesRouteImport.update({
+  id: '/cities',
+  path: '/cities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CitiesIndexRoute = CitiesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CitiesRoute,
 } as any)
 const IssuesIdRoute = IssuesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => IssuesRoute,
 } as any)
+const CitiesSlugRoute = CitiesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CitiesRoute,
+} as any)
+const CitiesSlugIndexRoute = CitiesSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CitiesSlugRoute,
+} as any)
+const CitiesSlugCategoryRoute = CitiesSlugCategoryRouteImport.update({
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => CitiesSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cities': typeof CitiesRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/issues': typeof IssuesRouteWithChildren
+  '/map': typeof MapRoute
   '/report': typeof ReportRoute
+  '/cities/$slug': typeof CitiesSlugRouteWithChildren
   '/issues/$id': typeof IssuesIdRoute
+  '/cities/': typeof CitiesIndexRoute
+  '/cities/$slug/$category': typeof CitiesSlugCategoryRoute
+  '/cities/$slug/': typeof CitiesSlugIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/issues': typeof IssuesRouteWithChildren
+  '/map': typeof MapRoute
   '/report': typeof ReportRoute
   '/issues/$id': typeof IssuesIdRoute
+  '/cities': typeof CitiesIndexRoute
+  '/cities/$slug/$category': typeof CitiesSlugCategoryRoute
+  '/cities/$slug': typeof CitiesSlugIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cities': typeof CitiesRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/issues': typeof IssuesRouteWithChildren
+  '/map': typeof MapRoute
   '/report': typeof ReportRoute
+  '/cities/$slug': typeof CitiesSlugRouteWithChildren
   '/issues/$id': typeof IssuesIdRoute
+  '/cities/': typeof CitiesIndexRoute
+  '/cities/$slug/$category': typeof CitiesSlugCategoryRoute
+  '/cities/$slug/': typeof CitiesSlugIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/issues' | '/report' | '/issues/$id'
+  fullPaths:
+    | '/'
+    | '/cities'
+    | '/dashboard'
+    | '/issues'
+    | '/map'
+    | '/report'
+    | '/cities/$slug'
+    | '/issues/$id'
+    | '/cities/'
+    | '/cities/$slug/$category'
+    | '/cities/$slug/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/issues' | '/report' | '/issues/$id'
-  id: '__root__' | '/' | '/dashboard' | '/issues' | '/report' | '/issues/$id'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/issues'
+    | '/map'
+    | '/report'
+    | '/issues/$id'
+    | '/cities'
+    | '/cities/$slug/$category'
+    | '/cities/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/cities'
+    | '/dashboard'
+    | '/issues'
+    | '/map'
+    | '/report'
+    | '/cities/$slug'
+    | '/issues/$id'
+    | '/cities/'
+    | '/cities/$slug/$category'
+    | '/cities/$slug/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CitiesRoute: typeof CitiesRouteWithChildren
   DashboardRoute: typeof DashboardRoute
   IssuesRoute: typeof IssuesRouteWithChildren
+  MapRoute: typeof MapRoute
   ReportRoute: typeof ReportRoute
 }
 
@@ -85,6 +171,13 @@ declare module '@tanstack/react-router' {
       path: '/report'
       fullPath: '/report'
       preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/issues': {
@@ -101,12 +194,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cities': {
+      id: '/cities'
+      path: '/cities'
+      fullPath: '/cities'
+      preLoaderRoute: typeof CitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/cities/': {
+      id: '/cities/'
+      path: '/'
+      fullPath: '/cities/'
+      preLoaderRoute: typeof CitiesIndexRouteImport
+      parentRoute: typeof CitiesRoute
     }
     '/issues/$id': {
       id: '/issues/$id'
@@ -115,8 +222,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IssuesIdRouteImport
       parentRoute: typeof IssuesRoute
     }
+    '/cities/$slug': {
+      id: '/cities/$slug'
+      path: '/$slug'
+      fullPath: '/cities/$slug'
+      preLoaderRoute: typeof CitiesSlugRouteImport
+      parentRoute: typeof CitiesRoute
+    }
+    '/cities/$slug/': {
+      id: '/cities/$slug/'
+      path: '/'
+      fullPath: '/cities/$slug/'
+      preLoaderRoute: typeof CitiesSlugIndexRouteImport
+      parentRoute: typeof CitiesSlugRoute
+    }
+    '/cities/$slug/$category': {
+      id: '/cities/$slug/$category'
+      path: '/$category'
+      fullPath: '/cities/$slug/$category'
+      preLoaderRoute: typeof CitiesSlugCategoryRouteImport
+      parentRoute: typeof CitiesSlugRoute
+    }
   }
 }
+
+interface CitiesSlugRouteChildren {
+  CitiesSlugCategoryRoute: typeof CitiesSlugCategoryRoute
+  CitiesSlugIndexRoute: typeof CitiesSlugIndexRoute
+}
+
+const CitiesSlugRouteChildren: CitiesSlugRouteChildren = {
+  CitiesSlugCategoryRoute: CitiesSlugCategoryRoute,
+  CitiesSlugIndexRoute: CitiesSlugIndexRoute,
+}
+
+const CitiesSlugRouteWithChildren = CitiesSlugRoute._addFileChildren(
+  CitiesSlugRouteChildren,
+)
+
+interface CitiesRouteChildren {
+  CitiesSlugRoute: typeof CitiesSlugRouteWithChildren
+  CitiesIndexRoute: typeof CitiesIndexRoute
+}
+
+const CitiesRouteChildren: CitiesRouteChildren = {
+  CitiesSlugRoute: CitiesSlugRouteWithChildren,
+  CitiesIndexRoute: CitiesIndexRoute,
+}
+
+const CitiesRouteWithChildren =
+  CitiesRoute._addFileChildren(CitiesRouteChildren)
 
 interface IssuesRouteChildren {
   IssuesIdRoute: typeof IssuesIdRoute
@@ -131,20 +286,12 @@ const IssuesRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CitiesRoute: CitiesRouteWithChildren,
   DashboardRoute: DashboardRoute,
   IssuesRoute: IssuesRouteWithChildren,
+  MapRoute: MapRoute,
   ReportRoute: ReportRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

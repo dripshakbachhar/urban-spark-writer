@@ -14,7 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cities: {
+        Row: {
+          city_type: string
+          created_at: string
+          id: string
+          lat: number
+          lng: number
+          name: string
+          name_ne: string | null
+          performance_score: number | null
+          population: number | null
+          province: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          city_type: string
+          created_at?: string
+          id?: string
+          lat: number
+          lng: number
+          name: string
+          name_ne?: string | null
+          performance_score?: number | null
+          population?: number | null
+          province: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          city_type?: string
+          created_at?: string
+          id?: string
+          lat?: number
+          lng?: number
+          name?: string
+          name_ne?: string | null
+          performance_score?: number | null
+          population?: number | null
+          province?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      city_metrics: {
+        Row: {
+          category: Database["public"]["Enums"]["civic_category"]
+          city_id: string
+          id: string
+          metric_key: string
+          metric_label: string
+          status: string | null
+          trend: string | null
+          trend_pct: number | null
+          unit: string | null
+          updated_at: string
+          value_num: number | null
+          value_text: string | null
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["civic_category"]
+          city_id: string
+          id?: string
+          metric_key: string
+          metric_label: string
+          status?: string | null
+          trend?: string | null
+          trend_pct?: number | null
+          unit?: string | null
+          updated_at?: string
+          value_num?: number | null
+          value_text?: string | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["civic_category"]
+          city_id?: string
+          id?: string
+          metric_key?: string
+          metric_label?: string
+          status?: string | null
+          trend?: string | null
+          trend_pct?: number | null
+          unit?: string | null
+          updated_at?: string
+          value_num?: number | null
+          value_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "city_metrics_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +120,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      civic_category:
+        | "water"
+        | "waste"
+        | "roads"
+        | "environment"
+        | "public_safety"
+        | "traffic"
+        | "disaster"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +254,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      civic_category: [
+        "water",
+        "waste",
+        "roads",
+        "environment",
+        "public_safety",
+        "traffic",
+        "disaster",
+      ],
+    },
   },
 } as const
