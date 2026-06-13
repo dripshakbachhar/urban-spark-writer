@@ -119,7 +119,7 @@ function CategoryDetail() {
               Filed issues, AI severity scoring, votes, comments and authority responses for this category
               will appear here once reporting is wired to the database.
             </p>
-            <Link to="/issues" search={{ city: city?.name }} className="mt-4 inline-block text-sm font-medium text-primary hover:underline">
+            <Link to="/issues" className="mt-4 inline-block text-sm font-medium text-primary hover:underline">
               Browse all community issues →
             </Link>
           </section>
